@@ -1,0 +1,19 @@
+{
+  "id": "com.soar.tv.launcher",
+  "version": "0.2.0",
+  "vendor": "SoarCode",
+  "type": "web",
+  "main": "index.html",
+  "title": "Casa",
+  "icon": "assets/icon.png",
+  "largeIcon": "assets/icon.png",
+  "iconColor": "#101c2a",
+  "resolution": "1920x1080",
+  "visible": true,
+  "transparent": false,
+  "requiredPermissions": ["applications.launcher"],
+  "supportTouchMode": "full",
+  "disableBackHistoryAPI": true,
+  "handlesRelaunch": false,
+  "accessibility": { "supportsAudioGuidance": true }
+}

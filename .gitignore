@@ -1,0 +1,21 @@
+node_modules/
+dist/
+.private/
+test-results/
+coverage/
+*.log
+*.ipk
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# Keep device inventories, raw captures and one-off inspection local.
+design/*
+!design/REFERENCES.md
+!design/webos-bridge.md
+!design/native-service.md
+scripts/tv-*

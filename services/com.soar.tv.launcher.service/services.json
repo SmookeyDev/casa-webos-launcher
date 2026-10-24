@@ -1,0 +1,17 @@
+{
+  "id": "com.soar.tv.launcher.service",
+  "description": "Casa native app inventory and TV controls",
+  "services": [
+    {
+      "name": "com.soar.tv.launcher.service",
+      "commands": [
+        { "name": "getCatalog", "public": false },
+        { "name": "getTVStatus", "public": false },
+        { "name": "watchVolume", "public": false },
+        { "name": "volumeUp", "public": false },
+        { "name": "volumeDown", "public": false },
+        { "name": "toggleMute", "public": false }
+      ]
+    }
+  ]
+}

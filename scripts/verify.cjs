@@ -1,0 +1,19 @@
+const {chromium}=require('./dependencies.cjs')('playwright');
+const assert=require('node:assert/strict');const fs=require('node:fs');
+(async()=>{
+ const browser=await chromium.launch(require('./browser-options.cjs')());const page=await browser.newPage({viewport:{width:1920,height:1080}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(process.env.CASA_PREVIEW_URL || 'http://127.0.0.1:4187');await page.waitForTimeout(150);
+ const focus=()=>page.evaluate(()=>document.activeElement.id);const state=()=>page.evaluate(()=>CasaLauncher.getState());const tests=[];
+ assert.equal(await focus(),'favorite-youtube.leanback.v4');tests.push('Initial focus starts on the first favorite');
+ for(let i=0;i<5;i++)await page.keyboard.press('ArrowRight');const edge=await focus();await page.keyboard.press('ArrowRight');assert.equal(await focus(),edge);tests.push('Right edge stays on the favorites row');
+ await page.keyboard.press('ArrowLeft');await page.keyboard.down('Enter');await page.keyboard.press('ArrowLeft');await page.keyboard.up('Enter');assert.equal(await page.locator('#toast').innerText(),'');tests.push('Moving while holding OK never launches the previous app');
+ await page.keyboard.down('Enter');await page.waitForTimeout(700);await page.keyboard.up('Enter');assert.equal((await state()).dialog,'organize-dialog');const heldFavorite=await focus();await page.keyboard.press('ArrowLeft');await page.keyboard.press('Escape');assert.equal((await state()).dialog,null);assert.match(await focus(),/^favorite-/);tests.push('Long OK opens organization and Back restores app focus');
+ await page.locator('[data-view="apps"]').click();assert.equal((await state()).view,'apps');await page.keyboard.press('Enter');await page.waitForFunction(()=>document.querySelector('#toast').innerText.startsWith('Prévia:'));assert.match(await page.locator('#toast').innerText(),/^Prévia:/);tests.push('Browser launches stay in preview mode');
+ await page.locator('#settings-button').click();assert.equal((await state()).dialog,'control-dialog');await page.locator('#casa-preferences').click();assert.equal((await state()).dialog,'settings-dialog');await page.locator('#reduce-motion').click();assert.equal((await state()).reducedMotion,true);await page.keyboard.press('Escape');await page.reload();assert.equal((await state()).reducedMotion,true);tests.push('Preferences persist across reload');
+ await page.locator('[data-view="inputs"]').click();assert.equal(await page.locator('.input-card').count(),3);await page.screenshot({path:'design/inputs-v1.png'});tests.push('Three HDMI inputs are available');
+ await page.setViewportSize({width:1280,height:720});await page.locator('#settings-button').click();await page.locator('#casa-preferences').click();const bounds=await page.locator('#settings-dialog .dialog-panel').boundingBox();assert(bounds.x>=0&&bounds.y>=0&&bounds.x+bounds.width<=1281&&bounds.y+bounds.height<=721);await page.screenshot({path:'design/settings-720p.png'});tests.push('Dialogs fit 720p and scaled screens');
+ await page.keyboard.press('Escape');await page.setViewportSize({width:1920,height:1080});await page.locator('[data-view="home"]').click();await page.screenshot({path:'design/home-v1.png'});
+ await page.addInitScript(()=>localStorage.setItem('casa.launcher.v1',JSON.stringify({favorites:['removed.app','netflix','amazon','io.strem.tv','globoplaywebos','com.disney.disneyplus-prod']})));await page.reload();assert.equal((await state()).favorites.length,5);tests.push('Resolved preview apps do not occupy invisible favorite slots');
+ assert.deepEqual(errors,[]);tests.push('No uncaught browser errors');
+ fs.writeFileSync('design/browser-verification.json',JSON.stringify({tests,passed:tests.length,errors},null,2));process.stdout.write(tests.map(t=>'PASS '+t).join('\n')+'\n');await browser.close();
+})().catch(e=>{process.stderr.write(e.stack+'\n');process.exit(1)});

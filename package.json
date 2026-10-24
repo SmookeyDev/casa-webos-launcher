@@ -1,0 +1,21 @@
+{
+  "name": "casa-lg-launcher",
+  "version": "0.2.0",
+  "private": true,
+  "description": "A quiet, remote-first webOS home launcher",
+  "engines": { "node": ">=22.12.0" },
+  "repository": { "type": "git", "url": "https://github.com/SmookeyDev/casa-webos-launcher.git" },
+  "homepage": "https://github.com/SmookeyDev/casa-webos-launcher#readme",
+  "bugs": "https://github.com/SmookeyDev/casa-webos-launcher/issues",
+  "scripts": {
+    "dev": "node scripts/serve.cjs",
+    "package": "ares-package app services/com.soar.tv.launcher.service --no-minify -o dist",
+    "check": "node scripts/check.cjs && node scripts/provision-native-catalog.test.cjs && node scripts/catalog-filter.test.cjs",
+    "verify": "node scripts/run-verification.cjs"
+  },
+  "devDependencies": {
+    "@webos-tools/cli": "3.2.6",
+    "playwright": "1.64.1",
+    "sharp": "0.35.5"
+  }
+}

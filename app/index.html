@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Casa</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="js/catalog.js"></script>
+    <script defer src="js/webos-bridge.js"></script>
+    <script defer src="js/app.js"></script>
+  </head>
+  <body>
+    <main class="screen" id="screen" aria-label="Casa, início da TV">
+      <header class="topbar">
+        <div class="brand" aria-label="Casa">casa<span aria-hidden="true">.</span></div>
+
+        <nav class="navigation" aria-label="Navegação principal">
+          <button class="nav-button is-active" type="button" data-view="home" data-focus="nav-home" aria-current="page">Início</button>
+          <button class="nav-button" type="button" data-view="apps" data-focus="nav-apps">Aplicativos</button>
+          <button class="nav-button" type="button" data-view="inputs" data-focus="nav-inputs">Entradas</button>
+        </nav>
+
+        <div class="header-tools">
+          <div class="time-block">
+            <time id="clock" class="clock" aria-label="Horário"></time>
+            <span id="date" class="date"></span>
+          </div>
+          <button class="icon-button" id="settings-button" type="button" data-focus="settings" aria-label="Central da TV" title="Central da TV">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9.5 3-.7 2.3-1.7 1-2.4-.5-2.4 4.1 1.7 1.8v2l-1.7 1.8 2.4 4.1 2.4-.5 1.7 1 .7 2.3h4.8l.7-2.3 1.7-1 2.4.5 2.4-4.1-1.7-1.8v-2l1.7-1.8-2.4-4.1-2.4.5-1.7-1L14.3 3H9.5Z" stroke="currentColor" stroke-width="1.45" stroke-linejoin="round" transform="translate(0 -1) scale(1 .96)"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.45"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="view home-view active" id="home-view" aria-labelledby="favorites-heading">
+        <div class="section-heading">
+          <h1 id="favorites-heading">Favoritos</h1>
+          <button class="text-button" id="edit-favorites" type="button" data-focus="organize">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Organizar
+          </button>
+        </div>
+        <div class="tile-grid" id="favorites-grid" aria-label="Aplicativos favoritos"></div>
+        <div id="recents-section" class="recents-section" hidden>
+          <h2>Recentes</h2>
+          <div class="recents-grid" id="recents-grid" aria-label="Aplicativos abertos pelo Casa recentemente"></div>
+        </div>
+      </section>
+
+      <section class="view apps-view" id="apps-view" aria-labelledby="apps-heading" hidden>
+        <div class="section-heading view-heading">
+          <h1 id="apps-heading">Aplicativos</h1>
+          <span class="section-note" id="apps-count"></span>
+        </div>
+        <div class="tile-grid" id="apps-grid" aria-label="Todos os aplicativos"></div>
+        <div class="pager" id="apps-pager" hidden>
+          <button class="text-button" id="apps-prev" type="button" aria-label="Página anterior de aplicativos">Anterior</button>
+          <span id="apps-page-label" aria-live="polite"></span>
+          <button class="text-button" id="apps-next" type="button" aria-label="Próxima página de aplicativos">Próxima</button>
+        </div>
+      </section>
+
+      <section class="view inputs-view" id="inputs-view" aria-labelledby="inputs-heading" hidden>
+        <div class="section-heading view-heading">
+          <h1 id="inputs-heading">Entradas</h1>
+          <span class="section-note">HDMI e dispositivos</span>
+        </div>
+        <div class="inputs-grid" id="inputs-grid" aria-label="Entradas da TV"></div>
+      </section>
+
+      <footer class="footer" aria-label="Ajuda de navegação">
+        <div class="hint-group">
+          <span class="hint"><span class="direction-key" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M8 8l-4 4 4 4m8-8 4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Navegar</span>
+          <span class="hint"><kbd>OK</kbd> Abrir</span>
+          <span class="hint"><span class="back-key" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m9 4-5 5 5 5M4 9h10a6 6 0 0 1 6 6v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Voltar</span>
+        </div>
+        <span class="footer-note" id="footer-note">Mantenha OK pressionado para organizar</span>
+      </footer>
+
+      <dialog class="modal" id="control-dialog" aria-labelledby="control-heading">
+        <div class="dialog-panel control-panel">
+          <div class="dialog-header">
+            <div><p class="eyebrow">SUA TV</p><h2 id="control-heading">Central de controle</h2></div>
+            <button class="icon-button small" type="button" data-close-dialog aria-label="Fechar central"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+          </div>
+          <div class="tv-status-grid" aria-live="polite">
+            <div class="status-card"><span class="status-label">Conexão</span><span class="status-value" id="network-status">Consultando…</span><span class="status-detail" id="internet-status"></span></div>
+            <div class="status-card"><span class="status-label">Saída de som</span><span class="status-value" id="sound-status">Consultando…</span><span class="status-detail" id="control-status-note"></span></div>
+          </div>
+          <div class="volume-section">
+            <div class="volume-heading"><span>Volume</span><output id="volume-value">—</output></div>
+            <div class="volume-track" aria-hidden="true"><span id="volume-level"></span></div>
+            <div class="volume-controls">
+              <button class="control-button" id="volume-down" type="button" aria-label="Diminuir volume" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+              <button class="control-button mute-button" id="mute-button" type="button" aria-pressed="false" disabled>Silenciar</button>
+              <button class="control-button" id="volume-up" type="button" aria-label="Aumentar volume" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+            </div>
+          </div>
+          <div class="settings-list control-links">
+            <button class="setting-row" id="live-tv" type="button"><span class="setting-title">TV ao vivo</span><span class="link-detail">Canais e antena</span></button>
+            <button class="setting-row" id="control-tv-settings" type="button"><span class="setting-title">Configurações da TV</span><span class="link-detail">Imagem, som e conexões</span></button>
+            <button class="setting-row" id="casa-preferences" type="button"><span class="setting-title">Ajustes do Casa</span><span class="link-detail">Aparência e organização</span></button>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog class="modal" id="settings-dialog" aria-labelledby="settings-heading">
+        <div class="dialog-panel">
+          <div class="dialog-header">
+            <div><p class="eyebrow">PREFERÊNCIAS</p><h2 id="settings-heading">Ajustes do Casa</h2></div>
+            <button class="icon-button small" type="button" data-close-dialog aria-label="Fechar ajustes"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+          </div>
+          <div class="settings-list">
+            <button class="setting-row" id="reduce-motion" type="button" role="switch" aria-checked="false">
+              <span class="setting-copy"><span class="setting-title">Reduzir movimento</span><span class="setting-description">Transições mais discretas entre os ícones</span></span>
+              <span class="switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="setting-row" id="show-labels" type="button" role="switch" aria-checked="true">
+              <span class="setting-copy"><span class="setting-title">Nomes dos aplicativos</span><span class="setting-description">Exibir os nomes abaixo dos ícones</span></span>
+              <span class="switch-track" aria-hidden="true"></span>
+            </button>
+            <button class="setting-row reset-row" id="reset-layout" type="button"><span class="setting-title">Restaurar organização inicial</span><span class="row-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m7 17 10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+            <button class="setting-row" id="tv-settings" type="button"><span class="setting-title">Configurações da TV</span><span class="row-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m7 17 10-10M7 7h10v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          </div>
+          <div class="dialog-footer"><button class="primary-button" type="button" data-close-dialog>Concluído</button></div>
+        </div>
+      </dialog>
+
+      <dialog class="modal" id="organize-dialog" aria-labelledby="organize-heading">
+        <div class="dialog-panel organize-panel">
+          <div class="dialog-header">
+            <div><p class="eyebrow">FAVORITOS</p><h2 id="organize-heading">Organize seus favoritos</h2></div>
+            <button class="icon-button small" type="button" data-close-dialog aria-label="Fechar organização"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+          </div>
+          <p class="dialog-description" id="organize-hint">OK adiciona ou remove um favorito. Use esquerda/direita para mudar a posição.</p>
+          <div id="organize-list" class="organize-list" aria-label="Organização dos favoritos"></div>
+          <div class="dialog-footer"><span class="dialog-shortcut"><kbd>OK</kbd> Selecionar <span>·</span> <span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M8 8l-4 4 4 4m8-8 4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Mover</span><button class="primary-button" type="button" data-close-dialog>Concluído</button></div>
+        </div>
+      </dialog>
+
+      <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    </main>
+  </body>
+</html>

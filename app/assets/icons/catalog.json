@@ -1,0 +1,114 @@
+[
+  {
+    "id": "youtube.leanback.v4",
+    "title": "YouTube",
+    "icon": "assets/icons/youtube.leanback.v4.png",
+    "color": "#ffffff",
+    "systemApp": false
+  },
+  {
+    "id": "netflix",
+    "title": "Netflix",
+    "icon": "assets/icons/netflix.png",
+    "color": "#ffffff",
+    "systemApp": false
+  },
+  {
+    "id": "amazon",
+    "title": "Prime Video",
+    "icon": "assets/icons/amazon.png",
+    "color": "#0578ff",
+    "systemApp": false
+  },
+  {
+    "id": "io.strem.tv",
+    "title": "Stremio",
+    "icon": "assets/icons/io.strem.tv.png",
+    "color": "#0c0b10",
+    "systemApp": false
+  },
+  {
+    "id": "globoplaywebos",
+    "title": "Globoplay",
+    "icon": "assets/icons/globoplaywebos.png",
+    "color": "#f50234",
+    "systemApp": false
+  },
+  {
+    "id": "com.disney.disneyplus-prod",
+    "title": "Disney+",
+    "icon": "assets/icons/com.disney.disneyplus-prod.png",
+    "color": "#054553",
+    "systemApp": false
+  },
+  {
+    "id": "com.viki.lg",
+    "title": "Viki: Asian Dramas, Movies and More",
+    "icon": "assets/icons/com.viki.lg.png",
+    "color": "#0c9bff",
+    "systemApp": false
+  },
+  {
+    "id": "com.webos.app.mediadiscovery",
+    "title": "Reprodutor de mídia",
+    "icon": "assets/icons/media.svg",
+    "color": "#1d3749",
+    "systemApp": true
+  },
+  {
+    "id": "org.webosbrew.hbchannel",
+    "title": "Homebrew Channel",
+    "icon": "assets/icons/homebrew.svg",
+    "color": "#26333c",
+    "systemApp": false
+  },
+  {
+    "id": "com.dasverse.app.dailyartstory",
+    "title": "DailyArtStory",
+    "icon": "assets/icons/com.dasverse.app.dailyartstory.png",
+    "color": "#000000",
+    "systemApp": false
+  },
+  {
+    "id": "com.webos.app.browser",
+    "title": "Navegador Web",
+    "icon": "assets/icons/com.webos.app.browser.png",
+    "color": "#5c75b8",
+    "systemApp": true
+  },
+  {
+    "id": "com.webos.app.camera",
+    "title": "Câmera",
+    "icon": "assets/icons/com.webos.app.camera.png",
+    "color": "#26303c",
+    "systemApp": true
+  },
+  {
+    "id": "com.webos.app.discovery",
+    "title": "Apps",
+    "icon": "assets/icons/com.webos.app.discovery.png",
+    "color": "#26303c",
+    "systemApp": true
+  },
+  {
+    "id": "com.webos.app.homeconnect",
+    "title": "Hub Inicial",
+    "icon": "assets/icons/com.webos.app.homeconnect.png",
+    "color": "#26303c",
+    "systemApp": true
+  },
+  {
+    "id": "com.webos.app.livetv",
+    "title": "TV ao vivo",
+    "icon": "assets/icons/com.webos.app.livetv.png",
+    "color": "#26303c",
+    "systemApp": true
+  },
+  {
+    "id": "clock-o-clock",
+    "title": "clock o clock",
+    "icon": "assets/icons/clock-o-clock.png",
+    "color": "#e0e4e9",
+    "systemApp": false
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "name": "com.soar.tv.launcher.service",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Fixed, app-scoped native integration for Casa",
+  "main": "service.js"
+}
